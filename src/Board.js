@@ -38,8 +38,27 @@ export default function Board({ sidelength, strokeWidth }){
     }
 
     function collapseTo(cellId, to){
+        // set cell's status to collapsed by leaving only a single choice
         let newCells = [...cells];
         newCells[cellId].possibilities = [to];
+
+        // propagate in rows and columns
+        let [x, y] = index2coord(cellId);
+        for (let i = 0; i < sidelength; i++){
+            [coord2index(x, i), coord2index(i, y)].forEach((newId) => {
+                if (newId === cellId){
+                    return
+                }
+                
+                newCells[newId].possibilities.filter((val, idx, arr) => {
+                    if (val !== to){
+                        return false
+                    }
+                    arr.splice(idx, 1);
+                    return true
+                });
+            })
+        }
 
         setCells(newCells);
     }
