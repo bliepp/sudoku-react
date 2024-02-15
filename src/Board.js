@@ -6,9 +6,11 @@ export default function Board({ sidelength, strokeWidth }){
     sidelength = sidelength || 9;
     strokeWidth = strokeWidth || 0;
 
+    const SIZE = 750;
+
     const blockLength = Math.sqrt(sidelength);
     const cellOffset = 0.75*strokeWidth;
-    const cellSize = (900 - 2*cellOffset - 0.5*(blockLength - 1)*strokeWidth)/sidelength;
+    const cellSize = (SIZE - 2*cellOffset - 0.5*(blockLength - 1)*strokeWidth)/sidelength;
 
     const [cells, setCells] = useState([]);
     useMemo(() => {
@@ -64,7 +66,7 @@ export default function Board({ sidelength, strokeWidth }){
     }
 
     return (
-        <svg viewBox="0 0 900 900" width={900} height={900}>
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE}>
             {
                 cells.map((value, index) => {
                     const [x, y] = index2coord(index);
@@ -82,7 +84,7 @@ export default function Board({ sidelength, strokeWidth }){
             }
             <rect className="OuterBorder"
                 x={strokeWidth/2} y={strokeWidth/2}
-                width={900 - strokeWidth} height={900 - strokeWidth}
+                width={SIZE - strokeWidth} height={SIZE - strokeWidth}
                 stroke="black" strokeWidth={strokeWidth} fill="None"
             />
             {
@@ -92,12 +94,12 @@ export default function Board({ sidelength, strokeWidth }){
                         <Fragment key={value}>
                             <line className="ThickLines"
                                 x1={cellOffset + no*blockLength*cellSize + value*0.5*strokeWidth + 0.25*strokeWidth} y1={0}
-                                x2={cellOffset + no*blockLength*cellSize + value*0.5*strokeWidth + 0.25*strokeWidth} y2={900}
+                                x2={cellOffset + no*blockLength*cellSize + value*0.5*strokeWidth + 0.25*strokeWidth} y2={SIZE}
                                 stroke="black" strokeWidth={strokeWidth}
                             />
                             <line className="ThickLines"
                                 x1={0} y1={cellOffset + no*blockLength*cellSize + value*0.5*strokeWidth + 0.25*strokeWidth}
-                                x2={900} y2={cellOffset + no*blockLength*cellSize + value*0.5*strokeWidth + 0.25*strokeWidth}
+                                x2={SIZE} y2={cellOffset + no*blockLength*cellSize + value*0.5*strokeWidth + 0.25*strokeWidth}
                                 stroke="black" strokeWidth={strokeWidth}
                             />
                         </Fragment>
