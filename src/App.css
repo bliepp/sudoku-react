@@ -3,3 +3,11 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.Board svg g text {
+    cursor: pointer;
+}
+
+.Board svg g text:only-of-type {
+    cursor: auto;
+}

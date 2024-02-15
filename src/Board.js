@@ -6,14 +6,6 @@ export default function Board({ sidelength, strokeWidth }){
     sidelength = sidelength || 9;
     strokeWidth = strokeWidth || 0;
 
-    function index2coord(id){
-        return [id % sidelength, Math.floor(id / sidelength)];
-    }
-    
-    function coord2index(x, y){
-        return y*sidelength + x;
-    }
-
     const blockLength = Math.sqrt(sidelength);
     const cellOffset = 0.75*strokeWidth;
     const cellSize = (900 - 2*cellOffset - 0.5*(blockLength - 1)*strokeWidth)/sidelength;
@@ -35,16 +27,33 @@ export default function Board({ sidelength, strokeWidth }){
         return (
             <span>Variable <code>sidelength</code> must be a square number.</span>
         );
+    
+
+    function index2coord(id){
+        return [id % sidelength, Math.floor(id / sidelength)];
+    }
+    
+    function coord2index(x, y){
+        return y*sidelength + x;
+    }
+
+    function collapseTo(cellId, to){
+        let newCells = [...cells];
+        newCells[cellId].possibilities = [to];
+
+        setCells(newCells);
+    }
 
     return (
-        <svg viewBox="0 0 900 900" width={600} height={600}>
+        <svg viewBox="0 0 900 900" width={900} height={900}>
             {
                 cells.map((value, index) => {
-                    const [x, y] = index2coord(index, sidelength);
+                    const [x, y] = index2coord(index);
                     let xBlock = Math.floor(x/blockLength);
                     let yBlock = Math.floor(y/blockLength);
                     return (
                         <Cell key={index}
+                            onClick={(i) => {collapseTo(index, i)}}
                             x={cellOffset + x*cellSize + 0.5*xBlock*strokeWidth} y={cellOffset + y*cellSize + 0.5*yBlock*strokeWidth}
                             size={cellSize} strokeWidth={strokeWidth/4}
                             possibilities={value.possibilities}
