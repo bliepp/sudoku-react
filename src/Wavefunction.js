@@ -17,8 +17,20 @@ Wavefunction.prototype.index2coord = function(i){
 }
 
 
-Wavefunction.prototype.coord2index = function(x, y) {
+Wavefunction.prototype.coord2index = function(x, y){
     return y*this.sideLength + x
+}
+
+
+Wavefunction.prototype.cell2blockCoord = function(cellId){
+    let [x, y] = this.index2coord(cellId);
+    return [Math.floor(x/this.blockLength), Math.floor(y/this.blockLength)];
+}
+
+
+Wavefunction.prototype.cell2blockIndex = function(cellId){
+    let [xBlock, yBlock] = this.cell2blockCoord(cellId);
+    return this.coord2index(xBlock, yBlock);
 }
 
 
@@ -30,12 +42,12 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
     // propagate in rows and columns
     let [x, y] = this.index2coord(cellId);
     for (let i = 0; i < this.sideLength; i++){
-        [this.coord2index(x, i), this.coord2index(i, y)].forEach((newId) => {
-            if (newId === cellId){
+        [this.coord2index(x, i), this.coord2index(i, y)].forEach((otherId) => {
+            if (otherId === cellId){
                 return
             }
             
-            this.cells[newId].possibilities.filter((val, idx, arr) => {
+            this.cells[otherId].possibilities.filter((val, idx, arr) => {
                 if (val !== to){
                     return false
                 }
@@ -44,6 +56,26 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
             });
         })
     }
+
+    // propagate block
+    let block = this.cell2blockIndex(cellId);
+    this.cells.forEach((other, otherId) => {
+        if (this.cell2blockIndex(otherId) !== block){
+            return
+        }
+
+        if (otherId === cellId){
+            return
+        }
+
+        other.possibilities.filter((val, idx, arr) => {
+            if (val !== to){
+                return false
+            }
+            arr.splice(idx, 1);
+            return true
+        });
+    });
 }
 
 
