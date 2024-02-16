@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div className="Board">
-      <Board sideLength={sideLength} strokeWidth={10} size={700} />
+      <Board sideLength={sideLength} strokeWidth={40/sideLength} size={700} />
       <br />
       <button className="Sidelength" onClick={() => setSideLength(4)}>Set 4x4</button>
       <button className="Sidelength" onClick={() => setSideLength(9)}>Set 9x9</button>

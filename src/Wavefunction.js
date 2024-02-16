@@ -39,6 +39,10 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
     this.cells[cellId].collapsed = true;
     this.cells[cellId].possibilities = [to];
 
+    /*
+     * TODO: remove code duplication
+     */
+
     // propagate in rows and columns
     let [x, y] = this.index2coord(cellId);
     for (let i = 0; i < this.sideLength; i++){
@@ -54,6 +58,10 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
                 arr.splice(idx, 1);
                 return true
             });
+
+            if (this.cells[otherId].possibilities.length === 1 && !this.cells[otherId].collapsed){
+                this.collapseTo(otherId, this.cells[otherId].possibilities[0])
+            }
         })
     }
 
@@ -75,6 +83,10 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
             arr.splice(idx, 1);
             return true
         });
+
+        if (this.cells[otherId].possibilities.length === 1 && !this.cells[otherId].collapsed){
+            this.collapseTo(otherId, this.cells[otherId].possibilities[0])
+        }
     });
 }
 
