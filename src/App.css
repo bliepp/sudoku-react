@@ -11,14 +11,3 @@
 .Board svg g text:only-of-type {
     cursor: auto;
 }
-
-.Board button.Sidelength {
-    width: 30%;
-    border: 0;
-    padding: 1em;
-    margin-right: 5%;
-}
-
-.Board button.Sidelength:last-child {
-    margin-right: 0;
-}
