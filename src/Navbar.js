@@ -16,7 +16,7 @@ export default function Navbar({ setSize }){
             <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <ul className="navbar-nav">
                 <li className="nav-item dropdown">
-                    <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}>New</a>
+                    <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}><i className="bi bi-plus-lg d-none d-lg-inline" /> New</a>
                     <ul className="dropdown-menu">
                         <li><h6 class="dropdown-header">Choose size</h6></li>
                         <li><a className="dropdown-item" href="#/" onClick={setSizeWrapper(4)}>4x4</a></li>
