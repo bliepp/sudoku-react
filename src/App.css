@@ -1,13 +1,7 @@
-.Board {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.Board svg g text {
+#Board svg g text {
     cursor: pointer;
 }
 
-.Board svg g text:only-of-type {
-    cursor: auto;
+#Board svg g text:only-of-type {
+    cursor: default;
 }
