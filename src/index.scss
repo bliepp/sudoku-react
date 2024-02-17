@@ -3,3 +3,13 @@
 a:hover {
     cursor: pointer;
 }
+
+#Board {
+    svg g text {
+        cursor: pointer;
+
+        &:only-of-type {
+            cursor: default;
+        }
+    }
+}

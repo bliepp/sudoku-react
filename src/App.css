@@ -1,7 +1,0 @@
-#Board svg g text {
-    cursor: pointer;
-}
-
-#Board svg g text:only-of-type {
-    cursor: default;
-}

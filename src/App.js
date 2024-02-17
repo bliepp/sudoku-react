@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import './App.css';
+import { useState } from "react";
 
-import Board from './Board.js';
-import Navbar from './Navbar.js';
+import Board from "./Board";
+import Navbar from "./Navbar";
 
 function App() {
   const [sideLength, setSideLength] = useState(9);

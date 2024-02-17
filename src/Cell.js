@@ -1,12 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export default function Cell({ x, y, size, strokeWidth, possibilities, onClick }){
-    const [gridSize, setGridSize] = useState(0);
-    useMemo(() => {
-        setGridSize(Math.ceil(Math.sqrt(possibilities.length)))
-    }, [possibilities]);
-
     const innerSize = size - strokeWidth;
+    const sideLength = useMemo(
+        () => Math.ceil(Math.sqrt(possibilities.length)),
+        [possibilities]
+    );
 
     return (
         <g>
@@ -17,13 +16,13 @@ export default function Cell({ x, y, size, strokeWidth, possibilities, onClick }
             />
             {
                 possibilities.map((value, index) => {
-                    let new_x = x + size/2 + (index % gridSize - 0.5*gridSize + 0.5)*size/gridSize;
-                    let new_y = y + size/2 + (Math.floor(index/gridSize) - 0.5*gridSize + 0.5)*size/gridSize;
+                    let new_x = x + size/2 + (index % sideLength - 0.5*sideLength + 0.5)*size/sideLength;
+                    let new_y = y + size/2 + (Math.floor(index/sideLength) - 0.5*sideLength + 0.5)*size/sideLength;
                     return (
                         <text key={index}
                             onClick={() => {onClick(value)}}
                             x={new_x} y={new_y}
-                            textAnchor="middle" dominantBaseline="central" fontSize={possibilities.length > 1 ? size/(2*gridSize) : size/2}
+                            textAnchor="middle" dominantBaseline="central" fontSize={possibilities.length > 1 ? size/(2*sideLength) : size/2}
                         >{ value }</text>
                     );
                 })
