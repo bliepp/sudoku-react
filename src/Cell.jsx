@@ -23,7 +23,11 @@ export default function Cell({ x, y, size, strokeWidth, possibilities, onClick }
                             onClick={() => {onClick(value)}}
                             x={new_x} y={new_y}
                             textAnchor="middle" dominantBaseline="central" fontSize={possibilities.length > 1 ? size/(2*sideLength) : size/2}
-                        >{ value }</text>
+                        >
+                            {possibilities.length > 1 && <>&nbsp;</>}
+                            { value }
+                            {possibilities.length > 1 && <>&nbsp;</>}
+                        </text>
                     );
                 })
             }
