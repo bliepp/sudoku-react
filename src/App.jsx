@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useRef } from "react";
+import { Outlet } from "react-router-dom";
 
-import Board from "./Board";
 import Navbar from "./Navbar";
 
 export default function App() {
-  const [sideLength, setSideLength] = useState(9);
+    const mainRef = useRef(null);
 
-  return (
-    <>
-    <Navbar setSize={setSideLength} />
-    <main id="Board" className="container-fluid text-center mt-5">
-      <Board sideLength={sideLength} strokeWidth={40/sideLength} size={700} />
-    </main>
-    </>
-  );
+    return (
+        <>
+            <Navbar exportRef={mainRef} />
+            <main ref={mainRef} id="Board" className="container-fluid text-center mt-5">
+                <Outlet />
+            </main>
+        </>
+    );
 }

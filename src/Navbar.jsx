@@ -1,11 +1,6 @@
-export default function Navbar({ setSize }){
-    function setSizeWrapper(size){
-        return function(e){
-          e.preventDefault();
-          setSize(size);
-        };
-    }
+import { Link } from "react-router-dom";
 
+export default function Navbar({ exportRef }){
     return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <div className="container-fluid flex-row-reverse">
@@ -19,9 +14,9 @@ export default function Navbar({ setSize }){
                     <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}><i className="bi bi-plus-lg d-none d-lg-inline" /> New</a>
                     <ul className="dropdown-menu">
                         <li><h6 className="dropdown-header">Choose size</h6></li>
-                        <li><a className="dropdown-item" href="#/" onClick={setSizeWrapper(4)}>4x4</a></li>
-                        <li><a className="dropdown-item" href="#/" onClick={setSizeWrapper(9)}>9x9</a></li>
-                        <li><a className="dropdown-item" href="#/" onClick={setSizeWrapper(16)}>16x16</a></li>
+                        <li><Link className="dropdown-item" to="/4x4/">4x4</Link></li>
+                        <li><Link className="dropdown-item" to="/9x9/">9x9</Link></li>
+                        <li><Link className="dropdown-item" to="/16x16/">16x16</Link></li>
                     </ul>
                 </li>
                 <li className="nav-item">
@@ -31,7 +26,22 @@ export default function Navbar({ setSize }){
                     <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}>Export</a>
                     <ul className="dropdown-menu">
                         <li><h6 className="dropdown-header">Choose format</h6></li>
-                        <li><a className="dropdown-item" href="#/" onClick={(e) => e.preventDefault()}>SVG</a></li>
+                        <li><a className="dropdown-item" href="#/" onClick={(e) => {
+                            e.preventDefault();
+
+                            if (!exportRef.current) {
+                                console.warn("Main object not found");
+                                return
+                            }
+
+                            const svgDom = exportRef.current.querySelector("svg");
+                            if (!svgDom) {
+                                console.warn("No svg object to export");
+                                return
+                            }
+
+                            console.log(svgDom);
+                        }}>SVG</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,10 +1,10 @@
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, forwardRef, useMemo, useState } from "react";
 
 import Cell from "./Cell";
 import Wavefunction from "./Wavefunction";
 
 
-export default function Board({ sideLength = 9, strokeWidth = 10, size = 512 }){
+function Board({ sideLength = 9, strokeWidth = 10, size = 512 }, ref){
     const [cells, setCells] = useState([]);
     const wavefunction = useMemo(() => {
         let wf = new Wavefunction(sideLength);
@@ -23,7 +23,7 @@ export default function Board({ sideLength = 9, strokeWidth = 10, size = 512 }){
 
 
     return (
-        <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
+        <svg ref={ref} viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
             {
                 cells.map((value, index) => {
                     let [x, y] = wavefunction.index2coord(index);
@@ -65,3 +65,5 @@ export default function Board({ sideLength = 9, strokeWidth = 10, size = 512 }){
         </svg>
     );
 }
+
+export default forwardRef(Board);
