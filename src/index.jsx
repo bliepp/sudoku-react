@@ -16,9 +16,13 @@ const router = createHashRouter([
             {
                 path: "/",
                 element: (<>
+                    <div className="mb-5"></div>
                     <h1>Start a new Sudoku</h1>
                     <p className="lead">
-                        by clicking on <span style={{"--bs-text-opacity": "0.55"}} className="bg-primary text-light rounded-1 px-2 py-1"><i className="bi bi-plus-lg" /> New</span>
+                        by clicking on <span style={{"--bs-text-opacity": "0.55"}} className="bg-primary text-light rounded-1 px-2 py-1 d-lg-inline d-none"><i className="bi bi-plus-lg" /> New</span>
+                        <span className="d-lg-none d-inline">
+                            <span style={{"--bs-text-opacity": "0.55"}} className="bg-primary text-light rounded-1 px-2 py-1"><i className="bi bi-list" /></span> and then on <span style={{"--bs-text-opacity": "0.55"}} className="bg-primary text-light rounded-1 px-2 py-1">New</span>
+                        </span>
                     </p>
                 </>),
             },
@@ -33,6 +37,12 @@ const router = createHashRouter([
             {
                 path: "/16x16/",
                 element: <Board sideLength={16} strokeWidth={3} size={700} />,
+            },
+            {
+                path: "/test/",
+                element: (<>
+                    Hello
+                </>),
             },
         ],
     },

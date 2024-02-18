@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Navbar({ exportRef }){
     return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
         <div className="container-fluid flex-row-reverse">
             <span className="navbar-brand">Sudoku Generator</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">

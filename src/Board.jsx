@@ -23,7 +23,7 @@ function Board({ sideLength = 9, strokeWidth = 10, size = 512 }, ref){
 
 
     return (
-        <svg ref={ref} viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
+        <svg ref={ref} viewBox={`0 0 ${size} ${size}`}>
             {
                 cells.map((value, index) => {
                     let [x, y] = wavefunction.index2coord(index);

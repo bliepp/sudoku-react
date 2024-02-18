@@ -9,7 +9,7 @@ export default function App() {
     return (
         <>
             <Navbar exportRef={mainRef} />
-            <main ref={mainRef} id="Board" className="container-fluid text-center mt-5">
+            <main ref={mainRef} className="container-fluid text-center vh-100 pt-5">
                 <Outlet />
             </main>
         </>
