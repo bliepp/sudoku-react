@@ -6,6 +6,7 @@
     "start": "vite",
     "build": "vite build",
     "deploy": "gh-pages -d build --no-history --nojekyll",
+    "deploy-official": "npm run deploy -- --cname sudoku.bliepp.de",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
