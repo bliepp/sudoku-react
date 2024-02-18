@@ -3,7 +3,7 @@ import { useState } from "react";
 import Board from "./Board";
 import Navbar from "./Navbar";
 
-function App() {
+export default function App() {
   const [sideLength, setSideLength] = useState(9);
 
   return (
@@ -15,5 +15,3 @@ function App() {
     </>
   );
 }
-
-export default App;

@@ -50,7 +50,7 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
             if (otherId === cellId){
                 return
             }
-            
+
             this.cells[otherId].possibilities.filter((val, idx, arr) => {
                 if (val !== to){
                     return false
