@@ -6,11 +6,15 @@ a:hover {
 }
 
 #Board {
-    svg g text {
-        cursor: pointer;
+    svg {
+        max-width: 100%;
 
-        &:only-of-type {
-            cursor: default;
+        g text {
+            cursor: pointer;
+
+            &:only-of-type {
+                cursor: default;
+            }
         }
     }
 }
