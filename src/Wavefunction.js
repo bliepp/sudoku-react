@@ -34,6 +34,21 @@ Wavefunction.prototype.cell2blockIndex = function(cellId){
 }
 
 
+Wavefunction.prototype.removePossibility = function(cellId, valueToRemove){
+    this.cells[cellId].possibilities.filter((val, idx, arr) => {
+        if (val !== valueToRemove){
+            return false
+        }
+        arr.splice(idx, 1);
+        return true
+    });
+
+    if (this.cells[cellId].possibilities.length === 1 && !this.cells[cellId].collapsed){
+        this.collapseTo(cellId, this.cells[cellId].possibilities[0])
+    }
+}
+
+
 Wavefunction.prototype.collapseTo = function(cellId, to){
     // set cell's status to collapsed by leaving only a single choice
     this.cells[cellId].collapsed = true;
@@ -51,17 +66,7 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
                 return
             }
 
-            this.cells[otherId].possibilities.filter((val, idx, arr) => {
-                if (val !== to){
-                    return false
-                }
-                arr.splice(idx, 1);
-                return true
-            });
-
-            if (this.cells[otherId].possibilities.length === 1 && !this.cells[otherId].collapsed){
-                this.collapseTo(otherId, this.cells[otherId].possibilities[0])
-            }
+            this.removePossibility(otherId, to);
         })
     }
 
@@ -76,17 +81,7 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
             return
         }
 
-        other.possibilities.filter((val, idx, arr) => {
-            if (val !== to){
-                return false
-            }
-            arr.splice(idx, 1);
-            return true
-        });
-
-        if (this.cells[otherId].possibilities.length === 1 && !this.cells[otherId].collapsed){
-            this.collapseTo(otherId, this.cells[otherId].possibilities[0])
-        }
+        this.removePossibility(otherId, to);
     });
 }
 
