@@ -12,6 +12,7 @@ A React based Sudoku generator using the wavefunction collapse algorithm
 ## Known issues
 * Currently the algorithm itself is not fully implemented, hence the "Solve" button does nothing
 * I didn't manage to get exporting the SVG from the DOM working, hence the "Export" entries do nothing
+* Creating a new sudoku of the same type as the currently active sudoku does nothing
 
 
 ## How to build
