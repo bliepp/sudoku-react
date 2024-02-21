@@ -1,7 +1,14 @@
+import isCallable from "is-callable";
+
 function Wavefunction(sideLength){
     this.sideLength = sideLength;
     this.blockLength = Math.sqrt(this.sideLength);
+    this.reset();
+    this.saveInitialState();
+}
 
+
+Wavefunction.prototype.reset = function(){
     this.cells = [];
     for (let i = 0; i  < this.sideLength*this.sideLength; i++) {
         this.cells.push({
@@ -9,6 +16,34 @@ function Wavefunction(sideLength){
             possibilities: [...Array(this.sideLength).keys()].map(i => i+1),
         });
     }
+}
+
+
+Wavefunction.prototype.saveInitialState = function(){
+    this.initialState = JSON.parse(JSON.stringify(this.cells));
+}
+
+
+Wavefunction.prototype.loadInitialState = function(){
+    this.cells = JSON.parse(JSON.stringify(this.initialState));
+}
+
+
+Wavefunction.prototype.getMinEntropy = function(){
+    let entropies = this.cells.map((val) => {
+        return val.collapsed ? Infinity : val.possibilities.length
+    });
+    return Math.min(...entropies)
+}
+
+
+Wavefunction.prototype.isFinished = function(){
+    return this.cells.filter((val) => val.collapsed).length === this.cells.length
+}
+
+
+Wavefunction.prototype.isValid = function(){
+    return this.cells.filter((val) => val.possibilities.length === 0).length === 0
 }
 
 
@@ -54,10 +89,6 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
     this.cells[cellId].collapsed = true;
     this.cells[cellId].possibilities = [to];
 
-    /*
-     * TODO: remove code duplication
-     */
-
     // propagate in rows and columns
     let [x, y] = this.index2coord(cellId);
     for (let i = 0; i < this.sideLength; i++){
@@ -83,6 +114,45 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
 
         this.removePossibility(otherId, to);
     });
+}
+
+
+Wavefunction.prototype.solveStep = function(callback){
+    if (this.isFinished()){
+        return
+    }
+
+    const minEntropy = this.getMinEntropy();
+    const indexes = this.cells.map((val, index) => {
+        if (val.possibilities.length === minEntropy){
+            return index
+        }
+    }).filter((val) => val !== undefined);
+    let randIndex = indexes[Math.floor(Math.random()*indexes.length)];
+    let randValue = this.cells[randIndex].possibilities[Math.floor(Math.random() * this.cells[randIndex].possibilities.length)];
+
+    this.collapseTo(randIndex, randValue);
+
+    if (!this.isValid()){
+        // TODO: Alert user?
+        // TODO: Count failures and abort after maximum amount of failures
+        console.log("Role back due to being invalid")
+        this.loadInitialState();
+    }
+
+    if (isCallable(callback))
+        callback();
+}
+
+
+Wavefunction.prototype.solve = function(finalCallback, stepCallback){
+    this.saveInitialState();
+
+    while (!this.isFinished())
+        this.solveStep(stepCallback);
+
+    if (isCallable(finalCallback))
+        finalCallback();
 }
 
 
