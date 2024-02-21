@@ -7,6 +7,8 @@ export default function Navbar({ exportRef }){
         let isSudoku = matches.length > 0;
 
         return function(event){
+            closeMobileMenu();
+
             if (!isSudoku)
                 return
 
@@ -17,14 +19,22 @@ export default function Navbar({ exportRef }){
         }
     }
 
+    function closeMobileMenu(){
+        let nav = document.getElementById("navbarCollapse");
+        let btn = document.getElementById("navbarCollapseBtn");
+        nav.classList.remove("show");
+        btn.classList.add("collapsed");
+        btn.ariaExpanded = false;
+    }
+
     return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
         <div className="container-fluid flex-lg-row-reverse">
             <span className="navbar-brand">Sudoku Generator</span>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler" id="navbarCollapseBtn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <div className="collapse navbar-collapse" id="navbarCollapse">
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
                         <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}><i className="bi bi-plus-lg d-none d-lg-inline" /> New</a>
@@ -39,8 +49,8 @@ export default function Navbar({ exportRef }){
                         <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}>Actions</a>
                         <ul className="dropdown-menu">
                             <li><h6 className="dropdown-header">Choose action</h6></li>
-                            <li><a className="dropdown-item" href="#/">Solve</a></li>
-                            <li><a className="dropdown-item" href="#/">Restore</a></li>
+                            <li><a className="dropdown-item" onClick={() => closeMobileMenu()} href="#/">Solve</a></li>
+                            <li><a className="dropdown-item" onClick={() => closeMobileMenu()} href="#/">Restore</a></li>
                         </ul>
                     </li>
                     <li className="nav-item dropdown">
@@ -49,6 +59,7 @@ export default function Navbar({ exportRef }){
                             <li><h6 className="dropdown-header">Choose format</h6></li>
                             <li><a className="dropdown-item" href="#/" onClick={(e) => {
                                 e.preventDefault();
+                                closeMobileMenu();
 
                                 if (!exportRef.current) {
                                     console.warn("Main object not found");
