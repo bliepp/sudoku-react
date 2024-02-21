@@ -1,4 +1,5 @@
-import { Fragment, forwardRef, useMemo, useState } from "react";
+import { Fragment, forwardRef, useEffect, useMemo, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 import Cell from "./Cell";
 import Wavefunction from "./Wavefunction";
@@ -6,11 +7,16 @@ import Wavefunction from "./Wavefunction";
 
 function Board({ sideLength = 9, strokeWidth = 10, size = 512 }, ref){
     const [cells, setCells] = useState([]);
+    const setGlobalWavefunction = useOutletContext();
     const wavefunction = useMemo(() => {
-        let wf = new Wavefunction(sideLength);
+        let wf = new Wavefunction(sideLength, (w) => {setCells([...w.cells])});
         setCells([...wf.cells]);
         return wf
     }, [sideLength]);
+
+    useEffect(() => {
+        setGlobalWavefunction(wavefunction)
+    }, [wavefunction])
 
     const cellOffset = 0.75*strokeWidth;
     const cellSize = (size - 2*cellOffset - 0.5*(wavefunction.blockLength - 1)*strokeWidth)/wavefunction.sideLength;

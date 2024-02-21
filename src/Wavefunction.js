@@ -1,8 +1,9 @@
 import isCallable from "is-callable";
 
-function Wavefunction(sideLength){
+function Wavefunction(sideLength, changeCallback){
     this.sideLength = sideLength;
     this.blockLength = Math.sqrt(this.sideLength);
+    this.changeCallback = changeCallback;
     this.reset();
     this.saveInitialState();
 }
@@ -26,6 +27,8 @@ Wavefunction.prototype.saveInitialState = function(){
 
 Wavefunction.prototype.loadInitialState = function(){
     this.cells = JSON.parse(JSON.stringify(this.initialState));
+    if (isCallable(this.changeCallback))
+        this.changeCallback(this);
 }
 
 
@@ -117,7 +120,7 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
 }
 
 
-Wavefunction.prototype.solveStep = function(callback){
+Wavefunction.prototype.solveStep = function(){
     if (this.isFinished()){
         return
     }
@@ -136,23 +139,20 @@ Wavefunction.prototype.solveStep = function(callback){
     if (!this.isValid()){
         // TODO: Alert user?
         // TODO: Count failures and abort after maximum amount of failures
-        console.log("Role back due to being invalid")
+        console.log("Role back due to result being invalid")
         this.loadInitialState();
     }
-
-    if (isCallable(callback))
-        callback();
 }
 
 
-Wavefunction.prototype.solve = function(finalCallback, stepCallback){
+Wavefunction.prototype.solve = function(){
     this.saveInitialState();
 
     while (!this.isFinished())
-        this.solveStep(stepCallback);
+        this.solveStep();
 
-    if (isCallable(finalCallback))
-        finalCallback();
+    if (isCallable(this.changeCallback))
+        this.changeCallback(this);
 }
 
 

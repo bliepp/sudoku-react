@@ -1,4 +1,13 @@
+import { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
+
 export default function Root(){
+    const setGlobalWavefunction = useOutletContext();
+
+    useEffect(() => {
+        setGlobalWavefunction(null)
+    }, [])
+
     return (
         <>
             <div className="mb-5"></div>

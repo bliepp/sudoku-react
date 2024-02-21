@@ -1,6 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 
-export default function Navbar({ exportRef }){
+export default function Navbar({ exportRef, wavefunction }){
+    function closeMobileMenu(){
+        let nav = document.getElementById("navbarCollapse");
+        let btn = document.getElementById("navbarCollapseBtn");
+        nav.classList.remove("show");
+        btn.classList.add("collapsed");
+        btn.ariaExpanded = false;
+    }
+
+    // only temporary workaround. problems: refresh of PWA fails offline, white flashin on reloading
     function forceRefresh(value){
         const pathRegEx = /^\/(\d*x\d*)\/?/g;
         const matches = [...useLocation().pathname.matchAll(pathRegEx)];
@@ -19,12 +28,24 @@ export default function Navbar({ exportRef }){
         }
     }
 
-    function closeMobileMenu(){
-        let nav = document.getElementById("navbarCollapse");
-        let btn = document.getElementById("navbarCollapseBtn");
-        nav.classList.remove("show");
-        btn.classList.add("collapsed");
-        btn.ariaExpanded = false;
+    function handleSolve(event){
+        closeMobileMenu();
+
+        if (wavefunction === null)
+            return
+
+        event.preventDefault();
+        wavefunction.solve();
+    }
+
+    function handleRestore(event){
+        closeMobileMenu();
+
+        if (wavefunction === null)
+            return
+
+        event.preventDefault();
+        wavefunction.loadInitialState();
     }
 
     return (
@@ -45,12 +66,13 @@ export default function Navbar({ exportRef }){
                             <li><Link className="dropdown-item" onClick={forceRefresh("16x16")} to="/16x16/">16x16</Link></li>
                         </ul>
                     </li>
+                    {wavefunction !== null && <>
                     <li className="nav-item dropdown">
                         <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}>Actions</a>
                         <ul className="dropdown-menu">
                             <li><h6 className="dropdown-header">Choose action</h6></li>
-                            <li><a className="dropdown-item" onClick={() => closeMobileMenu()} href="#/">Solve</a></li>
-                            <li><a className="dropdown-item" onClick={() => closeMobileMenu()} href="#/">Restore</a></li>
+                            <li><a className="dropdown-item" onClick={handleSolve} href="#/">Solve</a></li>
+                            <li><a className="dropdown-item" onClick={handleRestore} href="#/">Restore</a></li>
                         </ul>
                     </li>
                     <li className="nav-item dropdown">
@@ -76,6 +98,7 @@ export default function Navbar({ exportRef }){
                             }}>SVG</a></li>
                         </ul>
                     </li>
+                    </>}
                 </ul>
             </div>
         </div>
