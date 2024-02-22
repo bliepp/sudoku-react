@@ -9,11 +9,10 @@ export default function Navbar({ exportRef, wavefunction }){
         btn.ariaExpanded = false;
     }
 
-    // only temporary workaround. problems: refresh of PWA fails offline, white flashin on reloading
-    function forceRefresh(value){
+    function createHandleNew(value){
         const pathRegEx = /^\/(\d*x\d*)\/?/g;
         const matches = [...useLocation().pathname.matchAll(pathRegEx)];
-        let isSudoku = matches.length > 0;
+        let isSudoku = matches.length > 0 && wavefunction !== null;
 
         return function(event){
             closeMobileMenu();
@@ -23,7 +22,7 @@ export default function Navbar({ exportRef, wavefunction }){
 
             if (matches[0][1] === value){
                 event.preventDefault();
-                window.location.reload();
+                wavefunction.reset();
             }
         }
     }
@@ -61,9 +60,9 @@ export default function Navbar({ exportRef, wavefunction }){
                         <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}><i className="bi bi-plus-lg d-none d-lg-inline" /> New</a>
                         <ul className="dropdown-menu">
                             <li><h6 className="dropdown-header">Choose size</h6></li>
-                            <li><Link className="dropdown-item" onClick={forceRefresh("4x4")} to="/4x4/">4x4</Link></li>
-                            <li><Link className="dropdown-item" onClick={forceRefresh("9x9")} to="/9x9/">9x9</Link></li>
-                            <li><Link className="dropdown-item" onClick={forceRefresh("16x16")} to="/16x16/">16x16</Link></li>
+                            <li><Link className="dropdown-item" onClick={createHandleNew("4x4")} to="/4x4/">4x4</Link></li>
+                            <li><Link className="dropdown-item" onClick={createHandleNew("9x9")} to="/9x9/">9x9</Link></li>
+                            <li><Link className="dropdown-item" onClick={createHandleNew("16x16")} to="/16x16/">16x16</Link></li>
                         </ul>
                     </li>
                     {wavefunction !== null && <>

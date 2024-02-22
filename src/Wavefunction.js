@@ -5,7 +5,6 @@ function Wavefunction(sideLength, changeCallback){
     this.blockLength = Math.sqrt(this.sideLength);
     this.changeCallback = changeCallback;
     this.reset();
-    this.saveInitialState();
 }
 
 
@@ -17,6 +16,11 @@ Wavefunction.prototype.reset = function(){
             possibilities: [...Array(this.sideLength).keys()].map(i => i+1),
         });
     }
+
+    this.saveInitialState();
+
+    if (isCallable(this.changeCallback))
+        this.changeCallback(this);
 }
 
 
