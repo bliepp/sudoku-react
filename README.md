@@ -1,4 +1,4 @@
-# Sudoku React
+# Sudoku Generator
 [![](https://img.shields.io/github/license/bliepp/sudoku-react?style=for-the-badge)](/LICENSE)
 [![](https://img.shields.io/github/last-commit/bliepp/sudoku-react/gh-pages?label=latest%20release&style=for-the-badge)](/)
 [![](https://img.shields.io/website?label=web&up_message=open%20app&down_message=currently%20unavailable&up_color=2267cf&url=https://sudoku.bliepp.de&style=for-the-badge)](https://sudoku.bliepp.de/#/)
@@ -14,7 +14,8 @@ A React based Sudoku generator using the wavefunction collapse algorithm
 
 
 ## Known issues
-* I didn't manage to get exporting the SVG from the DOM working, hence the "Export" menu entries do nothing
+* I didn't manage to get exporting the SVG from the DOM working, hence the "Export" menu entries do nothing.
+* If the initial sudoku wavefunction is in an invalid state, the solver will run infinitely. A timeout is yet to be implemented.
 
 
 ## How to build
