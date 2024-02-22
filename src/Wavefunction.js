@@ -125,9 +125,8 @@ Wavefunction.prototype.collapseTo = function(cellId, to){
 
 
 Wavefunction.prototype.solveStep = function(){
-    if (this.isFinished()){
+    if (this.isFinished())
         return
-    }
 
     const minEntropy = this.getMinEntropy();
     const indexes = this.cells.map((val, index) => {
@@ -150,6 +149,9 @@ Wavefunction.prototype.solveStep = function(){
 
 
 Wavefunction.prototype.solve = function(){
+    if (this.isFinished())
+        return
+
     this.saveInitialState();
 
     while (!this.isFinished())
