@@ -65,7 +65,7 @@ export default function Navbar({ exportRef, wavefunction }){
                             <li><Link className="dropdown-item" onClick={createHandleNew("16x16")} to="/16x16/">16x16</Link></li>
                         </ul>
                     </li>
-                    {wavefunction !== null && <>
+                    {Boolean(wavefunction) && <>
                     <li className="nav-item dropdown">
                         <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}>Actions</a>
                         <ul className="dropdown-menu">

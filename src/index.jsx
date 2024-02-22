@@ -8,11 +8,13 @@ import "./index.scss";
 import App from "./App";
 import Board from "./Board"
 import Root from "./Root";
+import ErrorBoundary from "./ErrorBoundary";
 
 const router = createHashRouter([
     {
         path: "/",
         element: <App />,
+        errorElement: <ErrorBoundary />,
         children: [
             {
                 path: "/",
