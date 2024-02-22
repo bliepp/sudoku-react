@@ -3,16 +3,14 @@ A React based Sudoku generator using the wavefunction collapse algorithm
 
 
 ## Features
-* Cross-platform
+* Cross-platform (PWA)
 * Support for 4x4, 9x9 and 16x16 Sudokus
 * Manual selection ("collapsing") of individual cells
 * Statically servable (e.g. via GH Pages) due to being a 100% client side app
 
 
 ## Known issues
-* Currently the algorithm itself is not fully implemented, hence the "Solve" button does nothing
-* I didn't manage to get exporting the SVG from the DOM working, hence the "Export" entries do nothing
-* Creating a new sudoku of the same type as the currently active sudoku does nothing
+* I didn't manage to get exporting the SVG from the DOM working, hence the "Export" menu entries do nothing
 
 
 ## How to build
