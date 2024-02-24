@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-export default function Navbar({ exportRef, wavefunction }){
+export default function Navbar({ svgContainerRef, wavefunction }){
     function closeMobileMenu(){
         let nav = document.getElementById("navbarCollapse");
         let btn = document.getElementById("navbarCollapseBtn");
@@ -18,9 +18,9 @@ export default function Navbar({ exportRef, wavefunction }){
             closeMobileMenu();
 
             if (!isSudoku)
-                return
+            return
 
-            if (matches[0][1] === value){
+        if (matches[0][1] === value){
                 event.preventDefault();
                 wavefunction.reset();
             }
@@ -29,22 +29,42 @@ export default function Navbar({ exportRef, wavefunction }){
 
     function handleSolve(event){
         closeMobileMenu();
+        event.preventDefault();
 
         if (wavefunction === null)
             return
 
-        event.preventDefault();
         wavefunction.solve();
     }
 
     function handleRestore(event){
         closeMobileMenu();
+        event.preventDefault();
 
         if (wavefunction === null)
             return
 
-        event.preventDefault();
         wavefunction.loadInitialState();
+    }
+
+    function handleDownloadSvg(event){
+        closeMobileMenu();
+        event.preventDefault();
+
+        const svgNode = svgContainerRef.current?.querySelector("svg");
+        if (!svgNode)
+            return
+
+        const uri = window.URL.createObjectURL(new Blob([(new XMLSerializer()).serializeToString(svgNode)], {
+            type: 'image/svg+xml;charset=utf-8'
+        }));
+
+        let a = document.createElement("a");
+        a.href = uri;
+        a.download = "sudoku.svg";
+        a.click();
+
+        window.URL.revokeObjectURL(uri);
     }
 
     return (
@@ -78,23 +98,7 @@ export default function Navbar({ exportRef, wavefunction }){
                         <a className="nav-link" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded={false}>Export</a>
                         <ul className="dropdown-menu">
                             <li><h6 className="dropdown-header">Choose format</h6></li>
-                            <li><a className="dropdown-item" href="#/" onClick={(e) => {
-                                e.preventDefault();
-                                closeMobileMenu();
-
-                                if (!exportRef.current) {
-                                    console.warn("Main object not found");
-                                    return
-                                }
-
-                                const svgDom = exportRef.current.querySelector("svg");
-                                if (!svgDom) {
-                                    console.warn("No svg object to export");
-                                    return
-                                }
-
-                                console.log(svgDom);
-                            }}>SVG</a></li>
+                            <li><a className="dropdown-item" href="#/" onClick={handleDownloadSvg}>SVG</a></li>
                         </ul>
                     </li>
                     </>}

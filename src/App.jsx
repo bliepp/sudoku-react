@@ -9,7 +9,7 @@ export default function App() {
 
     return (
         <>
-            <Navbar exportRef={mainRef} wavefunction={wavefunction} />
+            <Navbar svgContainerRef={mainRef} wavefunction={wavefunction} />
             <main ref={mainRef} className="container-fluid text-center vh-100 pt-5">
                 <Outlet context={setWavefunction} />
             </main>
