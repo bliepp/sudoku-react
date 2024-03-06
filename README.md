@@ -5,6 +5,8 @@
 
 A React based Sudoku generator using the wavefunction collapse algorithm
 
+![Screenshot](screenshot.png)
+
 
 ## Features
 * Cross-platform (PWA)
